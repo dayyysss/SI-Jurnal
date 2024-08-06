@@ -60,14 +60,13 @@ function Header() {
                     <div className="dropdown dropdown-end ml-4">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
-                                <img src="https://placeimg.com/80/80/people" alt="profile" />
+                                <img src="https://reqres.in/img/faces/1-image.jpg" alt="profile" />
                             </div>
                         </label>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                             <li className="justify-between">
                                 <Link to={'/app/settings-profile'}>
                                     Profile Settings
-                                    <span className="badge">New</span>
                                 </Link>
                             </li>
                             <li><Link to={'/app/settings-billing'}>Bill History</Link></li>

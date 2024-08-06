@@ -9,12 +9,12 @@ import SuspenseContent from './containers/SuspenseContent';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <Suspense fallback={<SuspenseContent />}>
-        <Provider store={store}> {/* Berikan store sebagai properti */}
+        <Provider store={store}> 
             <App />
         </Provider>
     </Suspense>
-  // </React.StrictMode>
+  </React.StrictMode>
 );
 reportWebVitals();

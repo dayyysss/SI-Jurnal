@@ -19,43 +19,43 @@ const DocComponents = lazy(() => import('../pages/DocComponents'));
 
 const routes = [
   {
-    path: '/dashboard-admin/dashboard', 
+    path: '/dashboard', 
     component: Dashboard, 
   },
   {
-    path: '/dashboard-admin/welcome', 
+    path: '/welcome', 
     component: Welcome, 
   },
   {
-    path: '/dashboard-admin/leads',
+    path: '/leads',
     component: Leads,
   },
   {
-    path: '/dashboard-admin/settings-team',
+    path: '/settings-team',
     component: Team,
   },
   {
-    path: '/dashboard-admin/calendar',
+    path: '/calendar',
     component: Calendar,
   },
   {
-    path: '/dashboard-admin/transactions',
+    path: '/transactions',
     component: Transactions,
   },
   {
-    path: '/dashboard-admin/settings-profile',
+    path: '/settings-profile',
     component: ProfileSettings,
   },
   {
-    path: '/dashboard-admin/settings-billing',
+    path: '/settings-billing',
     component: Bills,
   },
   {
-    path: '/dashboard-admin/getting-started',
+    path: '/getting-started',
     component: GettingStarted,
   },
   {
-    path: '/dashboard-admin/features',
+    path: '/features',
     component: DocFeatures,
   },
   {
