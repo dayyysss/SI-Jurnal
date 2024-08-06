@@ -1,6 +1,6 @@
 const moment  = require("moment");
 
-module.exports = Object.freeze({
+const constants = Object.freeze({
     CALENDAR_INITIAL_EVENTS : [
         {title : "Product call", theme : "GREEN", startTime : moment().add(-12, 'd').startOf('day'), endTime : moment().add(-12, 'd').endOf('day')},
         {title : "Meeting with tech team", theme : "PINK", startTime : moment().add(-8, 'd').startOf('day'), endTime : moment().add(-8, 'd').endOf('day')},
@@ -42,3 +42,5 @@ module.exports = Object.freeze({
     
     ]
 });
+
+export default constants;

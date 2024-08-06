@@ -1,34 +1,76 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import LandingIntro from './LandingIntro';
-import ErrorText from '../../components/Typography/ErrorText';
-import InputText from '../../components/Input/InputText';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import LandingIntro from "./LandingIntro";
+import InputText from "../../components/Input/InputText";
+import Cookies from "js-cookie";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-// Definisikan INITIAL_LOGIN_OBJ jika belum ada
-const INITIAL_LOGIN_OBJ = {
-  emailId: '',
-  password: ''
-};
+const Login = () => {
+    document.title = "Login - E Jurnal";
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-function Login() {
-    const [loading, setLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ);
-
-    const updateFormValue = ({ updateType, value }) => {
-        setErrorMessage("");
-        setLoginObj({ ...loginObj, [updateType]: value });
-    };
-
-    const submitForm = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        // Implementasikan logika login di sini
-        // Setelah logika login selesai, setLoading(false);
+        setIsLoading(true);
+
+        try {
+            if (!email || !password) {
+                toast.error("Email dan password harus diisi");
+                setIsLoading(false);
+                return;
+            }
+
+            const response = await axios.post("http://127.0.0.1:8000/api/login", {
+                email,
+                password,
+            });
+
+            if (response.data.success) {
+                const { roles, token, user } = response.data;
+                localStorage.setItem("token", token);
+
+                // Simpan data ke cookies
+                Cookies.set("token", token);
+                Cookies.set("name", JSON.stringify(user.name));
+                Cookies.set("roles", roles[0]);
+
+                let redirectPath = "";
+                if (roles.includes("admin")) {
+                    redirectPath = "/dashboard-admin";
+                } 
+                 else {
+                    console.error("Invalid roles");
+                    return;
+                }
+
+                toast.success("Login Berhasil!");
+
+                setTimeout(() => {
+                    window.location.href = redirectPath;
+                }, 2000);
+
+                if (rememberMe) {
+                    Cookies.set("rememberedEmail", email);
+                } else {
+                    Cookies.remove("rememberedEmail");
+                }
+            } else {
+                toast.error("Gagal masuk, email atau kata sandi salah");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Terjadi kesalahan saat masuk");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
-        <div className="min-h-screen bg-base-200 flex items-center">
+        <div className="min-h-screen bg-base-content flex items-center">
             <div className="card mx-auto w-full max-w-5xl shadow-xl">
                 <div className="grid md:grid-cols-2 grid-cols-1 bg-base-100 rounded-xl">
                     <div>
@@ -36,23 +78,23 @@ function Login() {
                     </div>
                     <div className="py-24 px-10">
                         <h2 className="text-2xl font-semibold mb-2 text-center">Login SI Jurnal</h2>
-                        <form onSubmit={submitForm}>
+                        <form>
                             <div className="mb-4">
                                 <InputText
-                                    type="emailId"
-                                    defaultValue={loginObj.emailId}
-                                    updateType="emailId"
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    updateType="email"
                                     containerStyle="mt-4"
                                     labelTitle="Email"
-                                    updateFormValue={updateFormValue}
                                 />
                                 <InputText
                                     type="password"
-                                    defaultValue={loginObj.password}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     updateType="password"
                                     containerStyle="mt-4"
                                     labelTitle="Password"
-                                    updateFormValue={updateFormValue}
                                 />
                             </div>
                             <div className="text-right text-primary">
@@ -62,12 +104,13 @@ function Login() {
                                     </span>
                                 </Link>
                             </div>
-                            <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
                             <button
                                 type="submit"
-                                className={`btn mt-2 w-full btn-primary ${loading ? "loading" : ""}`}
+                                className={`btn mt-2 w-full btn-primary ${isLoading ? "loading" : ""}`}
+                                disabled={isLoading}
+                                onClick={handleSubmit}
                             >
-                                Login
+                                {isLoading ? "Loading..." : "Login"}
                             </button>
                         </form>
                     </div>
@@ -75,6 +118,6 @@ function Login() {
             </div>
         </div>
     );
-}
+};
 
 export default Login;
