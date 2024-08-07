@@ -7,23 +7,40 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const Login = () => {
-    document.title = "Login - E Jurnal";
+    document.title = "SI Jurnal - Login";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const validateEmail = (email) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
 
-        try {
-            if (!email || !password) {
-                toast.error("Email dan password harus diisi");
-                setIsLoading(false);
-                return;
-            }
+        if (!email) {
+            toast.error("Email harus diisi");
+            setIsLoading(false);
+            return;
+        }
 
+        if (!validateEmail(email)) {
+            toast.error("Email tidak valid");
+            setIsLoading(false);
+            return;
+        }
+
+        if (!password) {
+            toast.error("Password harus diisi");
+            setIsLoading(false);
+            return;
+        }
+
+        try {
             const response = await axios.post("http://127.0.0.1:8000/api/login", {
                 email,
                 password,
@@ -41,8 +58,7 @@ const Login = () => {
                 let redirectPath = "";
                 if (roles.includes("admin")) {
                     redirectPath = "/dashboard-admin";
-                } 
-                 else {
+                } else {
                     console.error("Invalid roles");
                     return;
                 }
@@ -70,7 +86,7 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-base-content flex items-center">
+        <div className="min-h-screen bg-base-300 flex items-center">
             <div className="card mx-auto w-full max-w-5xl shadow-xl">
                 <div className="grid md:grid-cols-2 grid-cols-1 bg-base-100 rounded-xl">
                     <div>
@@ -78,7 +94,7 @@ const Login = () => {
                     </div>
                     <div className="py-24 px-10">
                         <h2 className="text-2xl font-semibold mb-2 text-center">Login SI Jurnal</h2>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="mb-4">
                                 <InputText
                                     type="email"
@@ -108,7 +124,6 @@ const Login = () => {
                                 type="submit"
                                 className={`btn mt-2 w-full btn-primary ${isLoading ? "loading" : ""}`}
                                 disabled={isLoading}
-                                onClick={handleSubmit}
                             >
                                 {isLoading ? "Loading..." : "Login"}
                             </button>

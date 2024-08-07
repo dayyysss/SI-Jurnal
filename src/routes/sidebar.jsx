@@ -90,28 +90,6 @@ const routes = [
       },
     ]
   },
-  {
-    path: '', 
-    icon: <DocumentTextIcon className={`${iconClasses} inline`} />, 
-    name: 'Documentation', 
-    submenu: [
-      {
-        path: '/dashboard-admin/getting-started', 
-        icon: <DocumentTextIcon className={submenuIconClasses} />, 
-        name: 'Getting Started',
-      },
-      {
-        path: '/dashboard-admin/features',
-        icon: <TableCellsIcon className={submenuIconClasses} />, 
-        name: 'Features',
-      },
-      {
-        path: '/dashboard-admin/components',
-        icon: <CodeBracketSquareIcon className={submenuIconClasses} />, 
-        name: 'Components',
-      }
-    ]
-  },
 ];
 
 export default routes;

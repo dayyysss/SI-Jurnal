@@ -13,9 +13,6 @@ const Team = lazy(() => import('../pages/protected/Team'));
 const Transactions = lazy(() => import('../pages/protected/Transactions'));
 const Bills = lazy(() => import('../pages/protected/Bills'));
 const ProfileSettings = lazy(() => import('../pages/protected/ProfileSettings'));
-const GettingStarted = lazy(() => import('../pages/GettingStarted'));
-const DocFeatures = lazy(() => import('../pages/DocFeatures'));
-const DocComponents = lazy(() => import('../pages/DocComponents'));
 
 const routes = [
   {
@@ -51,31 +48,19 @@ const routes = [
     component: Bills,
   },
   {
-    path: '/getting-started',
-    component: GettingStarted,
-  },
-  {
-    path: '/features',
-    component: DocFeatures,
-  },
-  {
-    path: '/dashboard-admin/components',
-    component: DocComponents,
-  },
-  {
-    path: '/dashboard-admin/integration',
+    path: '/integration',
     component: Integration,
   },
   {
-    path: '/dashboard-admin/charts',
+    path: '/charts',
     component: Charts,
   },
   {
-    path: '/dashboard-admin/404',
+    path: '/404',
     component: Page404,
   },
   {
-    path: '/dashboard-admin/blank',
+    path: '/blank',
     component: Blank,
   },
 ];

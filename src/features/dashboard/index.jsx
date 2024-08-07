@@ -3,7 +3,6 @@ import AmountStats from './components/AmountStats'
 import PageStats from './components/PageStats'
 
 import UserGroupIcon  from '@heroicons/react/24/outline/UserGroupIcon'
-import UsersIcon  from '@heroicons/react/24/outline/UsersIcon'
 import CircleStackIcon  from '@heroicons/react/24/outline/CircleStackIcon'
 import CreditCardIcon  from '@heroicons/react/24/outline/CreditCardIcon'
 import UserChannels from './components/UserChannels'
@@ -14,11 +13,14 @@ import { useDispatch } from 'react-redux'
 import {showNotification} from '../common/headerSlice'
 import DoughnutChart from './components/DoughnutChart'
 import { useState } from 'react'
+import { BuildingOffice2Icon, PencilSquareIcon, IdentificationIcon, DocumentDuplicateIcon, KeyIcon, UsersIcon, BoltIcon, Cog6ToothIcon, 
+    UserIcon, ArrowRightOnRectangleIcon, CalendarDaysIcon, ExclamationTriangleIcon, DocumentIcon, CodeBracketSquareIcon, WalletIcon, TableCellsIcon, 
+    Squares2X2Icon, DocumentTextIcon, BellIcon } from '@heroicons/react/24/outline';
 
 const statsData = [
-    {title : "New Users", value : "34.7k", icon : <UserGroupIcon className='w-8 h-8'/>, description : "↗︎ 2300 (22%)"},
-    {title : "Total Sales", value : "$34,545", icon : <CreditCardIcon className='w-8 h-8'/>, description : "Current month"},
-    {title : "Pending Leads", value : "450", icon : <CircleStackIcon className='w-8 h-8'/>, description : "50 in hot leads"},
+    {title : "Total Siswa", value : "34.7k", icon : <IdentificationIcon className='w-8 h-8'/>, description : "↗︎ 2300 (22%)"},
+    {title : "Total Sekolah", value : "$34,545", icon : <BuildingOffice2Icon className='w-8 h-8'/>, description : "Current month"},
+    {title : "Jurnal", value : "450", icon : <PencilSquareIcon className='w-8 h-8'/>, description : "50 in hot leads"},
     {title : "Active Users", value : "5.6k", icon : <UsersIcon className='w-8 h-8'/>, description : "↙ 300 (18%)"},
 ]
 
