@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LandingIntro from "./LandingIntro";
 import InputText from "../../components/Input/InputText";
 import Cookies from "js-cookie";
@@ -10,8 +10,8 @@ const Login = () => {
     document.title = "SI Jurnal - Login";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const validateEmail = (email) => {
         const re = /\S+@\S+\.\S+/;
@@ -21,62 +21,61 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-
+    
+        // Validate input
         if (!email) {
             toast.error("Email harus diisi");
             setIsLoading(false);
             return;
         }
-
+    
         if (!validateEmail(email)) {
             toast.error("Email tidak valid");
             setIsLoading(false);
             return;
         }
-
+    
         if (!password) {
             toast.error("Password harus diisi");
             setIsLoading(false);
             return;
         }
-
+    
         try {
-            const response = await axios.post("http://127.0.0.1:8000/api/login", {
-                email,
-                password,
-            });
-
+            const response = await axios.post("http://127.0.0.1:8000/api/login", { email, password });
+            
             if (response.data.success) {
                 const { roles, token, user } = response.data;
+    
+                // Ensure roles is an array
+                const rolesArray = Array.isArray(roles) ? roles : [roles];
+    
+                // Save roles and token to Cookies and localStorage
+                Cookies.set('roles', JSON.stringify(rolesArray), { path: '/' });
+                localStorage.setItem('roles', JSON.stringify(rolesArray));
                 localStorage.setItem("token", token);
-
-                // Simpan data ke cookies
-                Cookies.set("token", token);
-                Cookies.set("name", JSON.stringify(user.name));
-                Cookies.set("roles", roles[0]);
-
+                Cookies.set("token", token, { path: '/' });
+                Cookies.set("name", user.name, { path: '/' });
+    
+                // Redirect based on role
                 let redirectPath = "";
-                if (roles.includes("admin")) {
+                if (rolesArray.includes("admin")) {
                     redirectPath = "/dashboard-admin";
+                } else if (rolesArray.includes("siswa")) {
+                    redirectPath = "/dashboard-siswa";
                 } else {
                     console.error("Invalid roles");
                     return;
                 }
-
+    
                 toast.success("Login Berhasil!");
-
                 setTimeout(() => {
-                    window.location.href = redirectPath;
+                    navigate(redirectPath);
                 }, 2000);
-
-                if (rememberMe) {
-                    Cookies.set("rememberedEmail", email);
-                } else {
-                    Cookies.remove("rememberedEmail");
-                }
             } else {
                 toast.error("Gagal masuk, email atau kata sandi salah");
             }
+        
         } catch (error) {
             console.error(error);
             toast.error("Terjadi kesalahan saat masuk");
@@ -84,6 +83,8 @@ const Login = () => {
             setIsLoading(false);
         }
     };
+    
+    
 
     return (
         <div className="min-h-screen bg-base-300 flex items-center">
