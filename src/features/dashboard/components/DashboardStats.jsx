@@ -1,23 +1,40 @@
-function DashboardStats({title, icon, value, description, colorIndex}){
+import { useNavigate } from 'react-router-dom';
 
-    const COLORS = ["primary", "primary"]
+function DashboardStats({ title, icon, value, colorIndex }) {
+    const COLORS = ["primary", "primary"];
+    const navigate = useNavigate();
 
-    const getDescStyle = () => {
-        if(description.includes("↗︎"))return "font-bold text-green-700 dark:text-green-300"
-        else if(description.includes("↙"))return "font-bold text-rose-500 dark:text-red-400"
-        else return ""
-    }
+    const handleClick = () => {
+        switch (title) {
+            case "Total Siswa":
+                navigate('dashboard-admin/data-user');
+                break;
+            case "Total Sekolah":
+                navigate('/data-sekolah');
+                break;
+            case "Total Jurnal":
+                navigate('/data-jurnal'); 
+                break;
+            case "Active Users":
+                navigate('/active-users'); 
+                break;
+            default:
+                break;
+        }
+    };
 
-    return(
+    return (
         <div className="stats shadow">
             <div className="stat">
-                <div className={`stat-figure dark:text-slate-300 text-${COLORS[colorIndex%2]}`}>{icon}</div>
+                <div className={`stat-figure dark:text-slate-300 text-${COLORS[colorIndex % 2]}`}>{icon}</div>
                 <div className="stat-title dark:text-slate-300">{title}</div>
-                <div className={`stat-value dark:text-slate-300 text-${COLORS[colorIndex%2]}`}>{value}</div>
-                <div className={"stat-desc  " + getDescStyle()}>{description}</div>
+                <div className={`stat-value dark:text-slate-300 text-${COLORS[colorIndex % 2]}`}>{value}</div>
+                <div className="stat-actions">
+                    <button className="btn btn-xs" onClick={handleClick}>Lihat Detail</button>
+                </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default DashboardStats
+export default DashboardStats;

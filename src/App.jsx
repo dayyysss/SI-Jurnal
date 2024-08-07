@@ -10,15 +10,18 @@ const Login = lazy(() => import('./pages/Login'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 
 function App() {
-  const [userRoles, setUserRoles] = useState([]);
 
   useEffect(() => {
     themeChange(false);
-    // Initialize user roles from cookies
-    const rolesString = Cookies.get('roles');
-    const roles = rolesString ? JSON.parse(rolesString) : [];
-    setUserRoles(roles);
   }, []);
+
+  const ProtectedRoute = ({ children, role }) => {
+    const roles = JSON.parse(Cookies.get("roles") || "[]");
+    if (!roles.includes(role)) {
+      return <Navigate to="/" replace />;
+    }
+    return children;
+  };
 
   return (
     <Router>
@@ -26,16 +29,10 @@ function App() {
         <Toaster />
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route
-              path="/dashboard-admin/*"
-              element={userRoles.includes('admin') ? <Layout /> : <Navigate to="/login" replace />}
-            />
-            <Route
-              path="/dashboard-siswa/*"
-              element={userRoles.includes('siswa') ? <Layout /> : <Navigate to="/login" replace />}
-            />
+            <Route path="/dashboard-admin/*" element={<ProtectedRoute role="admin"><Layout /></ProtectedRoute>} />
+            <Route path="/dashboard-siswa/*" element={<ProtectedRoute role="siswa"><Layout /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </div>

@@ -30,3 +30,12 @@
     height: 120px;
     animation: spin 2s linear infinite;
 }
+
+@layer utilities{
+  .top-items{
+      height: 99vh;
+  }
+}
+html{
+  scroll-behavior: smooth;
+}

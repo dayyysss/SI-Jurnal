@@ -46,31 +46,18 @@ const Login = () => {
             
             if (response.data.success) {
                 const { roles, token, user } = response.data;
-    
-                // Ensure roles is an array
-                const rolesArray = Array.isArray(roles) ? roles : [roles];
-    
-                // Save roles and token to Cookies and localStorage
-                Cookies.set('roles', JSON.stringify(rolesArray), { path: '/' });
-                localStorage.setItem('roles', JSON.stringify(rolesArray));
                 localStorage.setItem("token", token);
-                Cookies.set("token", token, { path: '/' });
-                Cookies.set("name", user.name, { path: '/' });
-    
-                // Redirect based on role
-                let redirectPath = "";
-                if (rolesArray.includes("admin")) {
-                    redirectPath = "/dashboard-admin";
-                } else if (rolesArray.includes("siswa")) {
-                    redirectPath = "/dashboard-siswa";
-                } else {
-                    console.error("Invalid roles");
-                    return;
-                }
+                Cookies.set("roles", JSON.stringify(roles));
+                Cookies.set("token", token);
+                Cookies.set("user", JSON.stringify(user));
     
                 toast.success("Login Berhasil!");
                 setTimeout(() => {
-                    navigate(redirectPath);
+                    if (roles.includes('admin')) {
+                        navigate('/dashboard-admin/dashboard');
+                    } else if (roles.includes('siswa')) {
+                        navigate('/dashboard-siswa');
+                    }
                 }, 2000);
             } else {
                 toast.error("Gagal masuk, email atau kata sandi salah");
@@ -83,7 +70,6 @@ const Login = () => {
             setIsLoading(false);
         }
     };
-    
     
 
     return (

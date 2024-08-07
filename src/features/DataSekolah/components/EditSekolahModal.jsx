@@ -86,7 +86,7 @@ function EditUserModalBody({ closeModal, user }) {
 
     return (
         <div className="p-4">
-            <h3 className="text-lg font-bold mb-4">Edit Data User</h3>
+            <h3 className="text-lg font-bold mb-4">Edit Data Sekolah</h3>
             <InputText type="text" defaultValue={userObj.name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
             <InputText type="email" defaultValue={userObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email" updateFormValue={updateFormValue} />
             <InputText type="text" defaultValue={userObj.school_id} updateType="school_id" containerStyle="mt-4" labelTitle="Asal Sekolah" updateFormValue={updateFormValue} />

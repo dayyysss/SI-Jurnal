@@ -4,79 +4,42 @@ import {
   BuildingOffice2Icon, PencilSquareIcon, IdentificationIcon, DocumentDuplicateIcon,
   KeyIcon, UsersIcon, BoltIcon, Cog6ToothIcon, UserIcon, ArrowRightOnRectangleIcon,
   CalendarDaysIcon, ExclamationTriangleIcon, DocumentIcon, CodeBracketSquareIcon, 
-  WalletIcon, TableCellsIcon, Squares2X2Icon, DocumentTextIcon, BellIcon 
+  WalletIcon, TableCellsIcon, Squares2X2Icon, DocumentTextIcon, BellIcon, NewspaperIcon
 } from '@heroicons/react/24/outline';
 
 const iconClasses = `h-6 w-6`;
 const submenuIconClasses = `h-5 w-5`;
 
-// Get user roles from cookies
-const rolesString = Cookies.get('roles');
-const roles = rolesString ? JSON.parse(rolesString) : [];
-
 const routes = [
-  ...(roles.includes('admin') ? [
     {
-      path: '/dashboard-admin/dashboard',
+      path: '/dashboard',
       icon: <Squares2X2Icon className={iconClasses} />,
       name: 'Dashboard',
     },
     {
-      path: '/dashboard-admin/leads',
+      path: '/data-user',
       icon: <IdentificationIcon className={iconClasses} />,
-      name: 'Data Siswa',
+      name: 'Data User',
     },
     {
-      path: '/dashboard-admin/transactions',
+      path: '/data-sekolah',
       icon: <BuildingOffice2Icon className={iconClasses} />,
       name: 'Data Sekolah',
     },
     {
-      path: '/dashboard-admin/charts',
+      path: '/charts',
       icon: <PencilSquareIcon className={iconClasses} />,
       name: 'Jurnal',
     },
     {
       path: '/dashboard-admin/integration',
-      icon: <BoltIcon className={iconClasses} />,
-      name: 'Integration',
+      icon: <NewspaperIcon className={iconClasses} />,
+      name: 'Blog',
     },
     {
       path: '/dashboard-admin/calendar',
       icon: <CalendarDaysIcon className={iconClasses} />,
       name: 'Calendar',
-    },
-    {
-      path: '',
-      icon: <DocumentDuplicateIcon className={`${iconClasses} inline`} />,
-      name: 'Pages',
-      submenu: [
-        {
-          path: '/login',
-          icon: <ArrowRightOnRectangleIcon className={submenuIconClasses} />,
-          name: 'Login',
-        },
-        {
-          path: '/register',
-          icon: <UserIcon className={submenuIconClasses} />,
-          name: 'Register',
-        },
-        {
-          path: '/forgot-password',
-          icon: <KeyIcon className={submenuIconClasses} />,
-          name: 'Forgot Password',
-        },
-        {
-          path: '/dashboard-admin/blank',
-          icon: <DocumentIcon className={submenuIconClasses} />,
-          name: 'Blank Page',
-        },
-        {
-          path: '/dashboard-admin/404',
-          icon: <ExclamationTriangleIcon className={submenuIconClasses} />,
-          name: '404',
-        },
-      ]
     },
     {
       path: '',
@@ -86,12 +49,12 @@ const routes = [
         {
           path: '/dashboard-admin/settings-profile',
           icon: <UserIcon className={submenuIconClasses} />,
-          name: 'Profile',
+          name: 'Roles',
         },
         {
           path: '/dashboard-admin/settings-billing',
           icon: <WalletIcon className={submenuIconClasses} />,
-          name: 'Billing',
+          name: 'Permission',
         },
         {
           path: '/dashboard-admin/settings-team',
@@ -100,9 +63,7 @@ const routes = [
         },
       ]
     },
-  ] : []),
 
-  ...(roles.includes('siswa') ? [
     {
       path: '/dashboard-siswa/dashboard',
       icon: <Squares2X2Icon className={iconClasses} />,
@@ -113,7 +74,6 @@ const routes = [
       icon: <PencilSquareIcon className={iconClasses} />,
       name: 'Jurnal',
     },
-  ] : []),
 ];
 
 export default routes;
