@@ -5,7 +5,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Swal from "sweetalert2";
 
-function EditUserModalBody({ closeModal, user }) {
+function EditUserModalBody({ closeModal, user, fetchUserData }) {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [userObj, setUserObj] = useState({
@@ -18,11 +18,11 @@ function EditUserModalBody({ closeModal, user }) {
         jurusan: "",
         kelas: "",
         gender: "",
+        roles: "siswa",
         alamat: "",
         nama_ortu: "",
         alamat_ortu: "",
-        no_hp_ortu: "",
-        image: ""
+        no_hp_ortu: ""
     });
     const [schools, setSchools] = useState([]);
     const [imageFile, setImageFile] = useState(null);
@@ -55,14 +55,14 @@ function EditUserModalBody({ closeModal, user }) {
                 password_confirmation: "",
                 school_id: user.school_id || "",
                 nomor_induk: user.nomor_induk || "",
+                roles: "siswa",
                 jurusan: user.jurusan || "",
                 kelas: user.kelas || "",
                 gender: user.gender || "",
                 alamat: user.alamat || "",
                 nama_ortu: user.nama_ortu || "",
                 alamat_ortu: user.alamat_ortu || "",
-                no_hp_ortu: user.no_hp_ortu || "",
-                image: user.image || ""
+                no_hp_ortu: user.no_hp_ortu || ""
             });
         }
     }, [user]);
@@ -74,60 +74,75 @@ function EditUserModalBody({ closeModal, user }) {
         }
     };
 
-   const saveUpdatedUser = async () => {
-    // Cek jika ada field yang kosong yang seharusnya tidak kosong
-    const requiredFields = ['name', 'email', 'school_id', 'nomor_induk', 'jurusan', 'kelas', 'gender', 'alamat', 'nama_ortu', 'alamat_ortu', 'no_hp_ortu'];
-    for (const field of requiredFields) {
-        if (!userObj[field]) {
-            return setErrorMessage(`${field} is required!`);
-        }
-    }
-
-    try {
+    const saveChanges = async () => {
         setLoading(true);
-
-        const formData = new FormData();
-        Object.keys(userObj).forEach(key => {
-            if (userObj[key]) { // Hanya tambahkan field yang tidak kosong
-                formData.append(key, userObj[key]);
+        try {
+            // Update user data
+            const requiredFields = ['name', 'email', 'school_id', 'nomor_induk', 'jurusan', 'kelas', 'gender', 'alamat', 'nama_ortu', 'alamat_ortu', 'no_hp_ortu'];
+            for (const field of requiredFields) {
+                if (!userObj[field]) {
+                    setErrorMessage(`${field} is required!`);
+                    setLoading(false);
+                    return;
+                }
             }
-        });
 
-        if (imageFile) {
-            formData.append('image', imageFile);
+            const params = new URLSearchParams();
+            Object.keys(userObj).forEach(key => {
+                if (userObj[key]) {
+                    params.append(key, userObj[key]);
+                }
+            });
+
+            const token = Cookies.get('token');
+
+            await axios.patch(`http://127.0.0.1:8000/api/admin/users/${user.id}`, params, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            // Upload image if a file is selected
+            if (imageFile) {
+                const formData = new FormData();
+                formData.append("image", imageFile);
+
+                const response = await axios.post(`http://127.0.0.1:8000/api/admin/image/${user.id}`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+
+                if (response.status !== 200 && response.status !== 201) {
+                    setErrorMessage(`Failed to update image: ${response.data.message}`);
+                    throw new Error(`Failed to update image: ${response.data.message}`);
+                }
+            }
+
+            Swal.fire({
+                title: 'Success!',
+                text: 'User and image updated successfully',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            }).then(() => {
+                fetchUserData();  // Call the function to refetch data
+                closeModal();
+            });
+        } catch (error) {
+            console.error('Error saving changes:', error.response ? error.response.data : error.message);
+            setErrorMessage('Failed to save changes');
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to save changes',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            });
+        } finally {
+            setLoading(false);
         }
-
-        const token = Cookies.get('token');
-
-        await axios.patch(`http://127.0.0.1:8000/api/admin/users/${user.id}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        Swal.fire({
-            title: 'Success!',
-            text: 'User updated successfully',
-            icon: 'success',
-            confirmButtonText: 'Ok'
-        }).then(() => {
-            closeModal();
-        });
-    } catch (error) {
-        console.error('Error updating user:', error.response ? error.response.data : error.message);
-        setErrorMessage('Failed to update user');
-        Swal.fire({
-            title: 'Error!',
-            text: 'Failed to update user',
-            icon: 'error',
-            confirmButtonText: 'Ok'
-        });
-    } finally {
-        setLoading(false);
-    }
-};
-  
+    };
 
     const updateFormValue = (e) => {
         const { name, value } = e.target;
@@ -187,7 +202,7 @@ function EditUserModalBody({ closeModal, user }) {
             <ErrorText styleClass="mt-4">{errorMessage}</ErrorText>
             <div className="modal-action mt-4">
                 <button className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-                <button className="btn btn-primary px-6" onClick={() => saveUpdatedUser()} disabled={loading}>
+                <button className="btn btn-primary px-6" onClick={() => saveChanges()} disabled={loading}>
                     {loading ? "Saving..." : "Save"}
                 </button>
             </div>

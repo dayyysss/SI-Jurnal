@@ -9,7 +9,7 @@ import EditUserModalBody from './components/EditUserModal';
 import SearchBar from "../../components/Input/SearchBar";
 import Swal from 'sweetalert2';
 
-const TopSideButtons = ({ openAddNewUserModal, searchText, setSearchText }) => {
+const TopSideButtons = ({ openAddNewUserModal, searchText, setSearchText, fetchUserData }) => {
     return (
         <div className="inline-block float-right">
             <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
@@ -45,7 +45,7 @@ function Users() {
     const fetchData = async () => {
         try {
             setIsLoading(true);
-            const response = await axios.get('http://127.0.0.1:8000/api/admin/users', {
+            const response = await axios.get('http://127.0.0.1:8000/api/admin/users/role/3', {
                 headers: {
                     Authorization: `Bearer ${getAuthToken()}`,
                 },
