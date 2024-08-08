@@ -7,7 +7,7 @@ function DashboardStats({ title, icon, value, colorIndex }) {
     const handleClick = () => {
         switch (title) {
             case "Total Siswa":
-                navigate('dashboard-admin/data-user');
+                navigate('/data-user');
                 break;
             case "Total Sekolah":
                 navigate('/data-sekolah');

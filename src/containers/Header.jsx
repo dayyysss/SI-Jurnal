@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { themeChange } from 'theme-change';
 import { useSelector, useDispatch } from 'react-redux';
-import BellIcon from '@heroicons/react/24/outline/BellIcon';
-import Bars3Icon from '@heroicons/react/24/outline/Bars3Icon';
-import MoonIcon from '@heroicons/react/24/outline/MoonIcon';
-import SunIcon from '@heroicons/react/24/outline/SunIcon';
+import { BellIcon, Bars3Icon, MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 import { openRightDrawer } from '../features/common/rightDrawerSlice';
 import { RIGHT_DRAWER_TYPES } from '../utils/globalConstantUtil';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
@@ -84,13 +81,13 @@ function Header() {
                 <div className="dropdown dropdown-end ml-4">
                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
-                            <img src="https://reqres.in/img/faces/1-image.jpg" alt="profile" />
+                            <img src="https://picsum.photos/80/80" alt="profile" />
                         </div>
                     </label>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <li className="justify-between">
-                            <Link to={'/settings-profile'}>
-                                Profile Settings
+                            <Link to={'/pengaturan-profil'}>
+                                Pengaturan Profil
                             </Link>
                         </li>
                         <div className="divider mt-0 mb-0"></div>

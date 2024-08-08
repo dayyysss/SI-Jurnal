@@ -50,7 +50,7 @@ const Login = () => {
                 Cookies.set("roles", JSON.stringify(roles));
                 Cookies.set("token", token);
                 Cookies.set("user", JSON.stringify(user));
-    
+
                 toast.success("Login Berhasil!");
                 setTimeout(() => {
                     if (roles.includes('admin')) {
@@ -71,7 +71,6 @@ const Login = () => {
         }
     };
     
-
     return (
         <div className="min-h-screen bg-base-300 flex items-center">
             <div className="card mx-auto w-full max-w-5xl shadow-xl">
@@ -87,7 +86,7 @@ const Login = () => {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    updateType="email"
+                                    name="email"
                                     containerStyle="mt-4"
                                     labelTitle="Email"
                                 />
@@ -95,7 +94,7 @@ const Login = () => {
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    updateType="password"
+                                    name="password"
                                     containerStyle="mt-4"
                                     labelTitle="Password"
                                 />

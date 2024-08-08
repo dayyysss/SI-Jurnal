@@ -1,20 +1,20 @@
-import { useState } from "react";
+import React from 'react';
 
-function InputText({ labelTitle, labelStyle, type, containerStyle, value, onChange, updateType }) {
+const InputText = ({ type, value, onChange, name, containerStyle, labelTitle }) => {
     return (
-        <div className={`form-control w-full ${containerStyle}`}>
+        <div className={`form-control ${containerStyle}`}>
             <label className="label">
-                <span className={`label-text text-base-content ${labelStyle}`}>{labelTitle}</span>
+                <span className="label-text">{labelTitle}</span>
             </label>
             <input
                 type={type || "text"}
+                name={name} // Use name attribute to match state key
                 value={value}
-                onChange={(e) => onChange(e)}
-                placeholder=""
-                className="input input-bordered w-full"
+                onChange={onChange} // Call the parent handler
+                className="input input-bordered"
             />
         </div>
     );
-}
+};
 
 export default InputText;

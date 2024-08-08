@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 const Layout = lazy(() => import('./containers/Layout'));
 const Login = lazy(() => import('./pages/Login'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const ProfileSettings = lazy(() => import('./features/settings/profilesettings/index'));
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/dashboard-admin/*" element={<ProtectedRoute role="admin"><Layout /></ProtectedRoute>} />
             <Route path="/dashboard-siswa/*" element={<ProtectedRoute role="siswa"><Layout /></ProtectedRoute>} />
+            <Route path="/pengaturan-profil" element={<ProtectedRoute role="siswa, admin"><ProfileSettings /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </div>
