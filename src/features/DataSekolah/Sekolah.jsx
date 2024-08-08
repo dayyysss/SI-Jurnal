@@ -1,3 +1,4 @@
+// Sekolah.jsx
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -5,7 +6,8 @@ import TitleCard from '../../components/Cards/TitleCard';
 import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import AddSekolahModalBody from './components/AddSekolahModal';
 import EditSekolahModalBody from './components/EditSekolahModal';
-import SearchBar from "../../components/Input/SearchBar"
+import SearchBar from "../../components/Input/SearchBar";
+import Swal from 'sweetalert2';
 
 const TopSideButtons = ({ openAddNewSchoolModal, searchText, setSearchText }) => {
     return (
@@ -71,24 +73,42 @@ function Sekolah() {
     }, [page, searchText]);
 
     const applySearch = (searchText) => {
-        fetchData(); // Memanggil fetchData untuk mendapatkan hasil pencarian
+        fetchData(); 
     };
 
     const removeAppliedFilter = () => {
-        setSearchText(''); // Menghapus teks pencarian
-        fetchData(); // Memanggil fetchData untuk mendapatkan semua data
+        setSearchText('');
+        fetchData();
     };
 
-    const deleteCurrentSchool = async (schoolId) => {
+    const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://127.0.0.1:8000/api/admin/sekolah/${schoolId}`, {
-                headers: {
-                    Authorization: `Bearer ${getAuthToken()}`,
-                },
+            const result = await Swal.fire({
+                title: "Yakin Mau Hapus?",
+                text: "Data akan dihapus dari database",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Hapus saja!",
             });
-            fetchData();
+
+            if (result.isConfirmed) {
+                await axios.delete(`http://127.0.0.1:8000/api/admin/sekolah/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${getAuthToken()}`,
+                    },
+                });
+
+                fetchData(); // Refresh data setelah berhasil dihapus
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Data has been deleted.",
+                    icon: "success",
+                });
+            }
         } catch (error) {
-            console.error('Error deleting school:', error);
+            console.error("Error deleting data:", error);
         }
     };
 
@@ -121,6 +141,7 @@ function Sekolah() {
                     <table className="table w-full">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Nama Sekolah</th>
                                 <th>Alamat</th>
                                 <th>Nama Pembimbing</th>
@@ -132,8 +153,9 @@ function Sekolah() {
                         </thead>
                         <tbody>
                             {schools.length > 0 ? (
-                                schools.map((school) => (
+                                schools.map((school, index) => (
                                     <tr key={school.id}>
+                                        <td>{(page - 1) * 10 + index + 1}</td>
                                         <td>{school.nama}</td>
                                         <td>{school.alamat}</td>
                                         <td>{school.nama_pembimbing}</td>
@@ -149,7 +171,7 @@ function Sekolah() {
                                             </button>
                                             <button 
                                                 className="btn btn-square btn-ghost" 
-                                                onClick={() => deleteCurrentSchool(school.id)}
+                                                onClick={() => handleDelete(school.id)}
                                             >
                                                 <TrashIcon className="w-5" />
                                             </button>
@@ -158,11 +180,40 @@ function Sekolah() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="7" className="text-center">No schools available</td>
+                                    <td colSpan="8" className="text-center">No schools available</td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
+                    
+                    {/* Pagination */}
+                    <div className="flex justify-center mt-8 mb-4">
+                        <div className="btn-group">
+                            <button
+                                className={`btn ${page === 1 ? 'btn-disabled' : ''} mr-2`}
+                                onClick={() => setPage(page - 1)}
+                                disabled={page === 1}
+                            >
+                                « Previous
+                            </button>
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <button
+                                    key={index + 1}
+                                    className={`btn ${page === index + 1 ? 'btn-active' : ''} mr-2`}
+                                    onClick={() => setPage(index + 1)}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
+                            <button
+                                className={`btn ${page === totalPages ? 'btn-disabled' : ''}`}
+                                onClick={() => setPage(page + 1)}
+                                disabled={page === totalPages}
+                            >
+                                Next »
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </TitleCard>
 

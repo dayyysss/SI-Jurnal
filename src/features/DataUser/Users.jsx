@@ -9,7 +9,7 @@ import EditUserModalBody from './components/EditUserModal';
 import SearchBar from "../../components/Input/SearchBar";
 import Swal from 'sweetalert2';
 
-const TopSideButtons = ({ openAddNewUserModal, searchText, setSearchText, fetchUserData }) => {
+const TopSideButtons = ({ openAddNewUserModal, searchText, setSearchText }) => {
     return (
         <div className="inline-block float-right">
             <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
@@ -74,16 +74,7 @@ function Users() {
 
     useEffect(() => {
         fetchData();
-    }, [page, role, searchText]); // Tambahkan searchText sebagai dependensi
-
-    const applySearch = (searchText) => {
-        fetchData(); // Memanggil fetchData untuk mendapatkan hasil pencarian
-    };
-
-    const removeAppliedFilter = () => {
-        setSearchText(''); // Menghapus teks pencarian
-        fetchData(); // Memanggil fetchData untuk mendapatkan semua data
-    };
+    }, [page, role, searchText]);
 
     const openAddNewUserModal = () => {
         setIsAddModalOpen(true);
@@ -101,7 +92,7 @@ function Users() {
 
     const closeEditUserModal = () => {
         setIsEditModalOpen(false);
-        setCurrentUser(null); // Clear user data after closing
+        setCurrentUser(null);
     };
 
     const handleDelete = async (id) => {
@@ -124,7 +115,7 @@ function Users() {
                 fetchData();
                 Swal.fire({
                     title: "Deleted!",
-                    text: "Your file has been deleted.",
+                    text: "User has been deleted.",
                     icon: "success",
                 });
             }
@@ -134,13 +125,17 @@ function Users() {
     };
 
     const handlePageChange = (newPage) => {
-        if (newPage < 1 || newPage > totalPages) return; // Out of range
+        if (newPage < 1 || newPage > totalPages) return;
         setPage(newPage);
     };
 
     const handleUserAdded = () => {
-        fetchData(); // Refresh data after user is added
+        fetchData();
     };
+
+    const filteredUsers = users.filter((user) =>
+        user.name.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -152,6 +147,7 @@ function Users() {
                     <table className="table w-full">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Profil</th>
                                 <th>Nama</th>
                                 <th>Email</th>
@@ -169,9 +165,10 @@ function Users() {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.length > 0 ? (
-                                users.map((user) => (
+                            {filteredUsers.length > 0 ? (
+                                filteredUsers.map((user, index) => (
                                     <tr key={user.id}>
+                                        <td>{(page - 1) * 10 + index + 1}</td>
                                         <td>
                                             <div className="avatar">
                                                 <div className="mask mask-squircle w-12 h-12">
@@ -209,14 +206,14 @@ function Users() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="13" className="text-center">No users available</td>
+                                    <td colSpan="14" className="text-center">No users available</td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
 
                     {/* Pagination */}
-                    <div className="flex justify-center mt-4">
+                    <div className="flex justify-center mt-8 mb-4">
                         <div className="btn-group">
                             <button
                                 className={`btn ${page === 1 ? 'btn-disabled' : ''} mr-2`}

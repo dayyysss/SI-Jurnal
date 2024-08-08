@@ -1,26 +1,52 @@
-import DashboardStats from './components/DashboardStats'
-import AmountStats from './components/AmountStats'
-import PageStats from './components/PageStats'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { showNotification } from '../common/headerSlice';
+import DashboardStats from './components/DashboardStats';
+import AmountStats from './components/AmountStats';
+import PageStats from './components/PageStats';
+import UserChannels from './components/UserChannels';
+import LineChart from './components/LineChart';
+import BarChart from './components/BarChart';
+import DashboardTopBar from './components/DashboardTopBar';
+import DoughnutChart from './components/DoughnutChart';
+import { BuildingOffice2Icon, PencilSquareIcon, IdentificationIcon, NewspaperIcon } from '@heroicons/react/24/outline';
 
-import UserChannels from './components/UserChannels'
-import LineChart from './components/LineChart'
-import BarChart from './components/BarChart'
-import DashboardTopBar from './components/DashboardTopBar'
-import { useDispatch } from 'react-redux'
-import { showNotification } from '../common/headerSlice'
-import DoughnutChart from './components/DoughnutChart'
-import { useState } from 'react'
-import { BuildingOffice2Icon, PencilSquareIcon, IdentificationIcon, NewspaperIcon, DocumentDuplicateIcon, KeyIcon, UsersIcon, BoltIcon, Cog6ToothIcon, UserIcon, ArrowRightOnRectangleIcon, CalendarDaysIcon, ExclamationTriangleIcon, DocumentIcon, CodeBracketSquareIcon, WalletIcon, TableCellsIcon, Squares2X2Icon, DocumentTextIcon, BellIcon } from '@heroicons/react/24/outline';
-
-const statsData = [
-    { title: "Total User", value: "34.7k", icon: <IdentificationIcon className='w-8 h-8' /> },
-    { title: "Total Sekolah", value: "$34,545", icon: <BuildingOffice2Icon className='w-8 h-8' /> },
-    { title: "Total Jurnal", value: "450", icon: <PencilSquareIcon className='w-8 h-8' /> },
-    { title: "Total Blog", value: "5.6k", icon: <NewspaperIcon className='w-8 h-8' /> },
-];
-
-function Dashboard() {
+const Dashboard = () => {
     const dispatch = useDispatch();
+    const [statsData, setStatsData] = useState([
+        { title: "Total User", value: "0", icon: <IdentificationIcon className='w-8 h-8' /> },
+        { title: "Total Sekolah", value: "0", icon: <BuildingOffice2Icon className='w-8 h-8' /> },
+        { title: "Total Jurnal", value: "0", icon: <PencilSquareIcon className='w-8 h-8' /> },
+        { title: "Total Blog", value: "0", icon: <NewspaperIcon className='w-8 h-8' /> },
+    ]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+
+                const response = await axios.get('http://127.0.0.1:8000/api/admin/dashboard', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                
+                const { user: totalUser, sekolah: totalSekolah, jurnal: totalJurnal, blog: totalBlog } = response.data.data;
+
+                setStatsData([
+                    { title: "Total User", value: totalUser.toString(), icon: <IdentificationIcon className='w-8 h-8' /> },
+                    { title: "Total Sekolah", value: totalSekolah.toString(), icon: <BuildingOffice2Icon className='w-8 h-8' /> },
+                    { title: "Total Jurnal", value: totalJurnal.toString(), icon: <PencilSquareIcon className='w-8 h-8' /> },
+                    { title: "Total Blog", value: totalBlog.toString(), icon: <NewspaperIcon className='w-8 h-8' /> },
+                ]);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const updateDashboardPeriod = (newRange) => {
         // Dashboard range changed, write code to refresh your values

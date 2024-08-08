@@ -6,7 +6,7 @@ function DashboardStats({ title, icon, value, colorIndex }) {
 
     const handleClick = () => {
         switch (title) {
-            case "Total Siswa":
+            case "Total User":
                 navigate('/data-user');
                 break;
             case "Total Sekolah":
@@ -15,8 +15,8 @@ function DashboardStats({ title, icon, value, colorIndex }) {
             case "Total Jurnal":
                 navigate('/data-jurnal'); 
                 break;
-            case "Active Users":
-                navigate('/active-users'); 
+            case "Total Blog":
+                navigate('/data-blog'); 
                 break;
             default:
                 break;
