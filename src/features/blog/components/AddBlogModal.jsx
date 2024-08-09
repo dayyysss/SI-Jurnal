@@ -62,7 +62,6 @@ function AddBlogModalBody({ closeModal, onUserAdded }) {
             setLoading(false);
         }
     };
-    
 
     const updateFormValue = (e) => {
         const { name, value } = e.target;
@@ -80,7 +79,7 @@ function AddBlogModalBody({ closeModal, onUserAdded }) {
     };
 
     return (
-        <div className="p-4 max-w-4xl mx-auto"> {/* Memperbesar modal */}
+        <div className="p-4 max-w-2xl mx-auto h-auto max-h-[80vh] overflow-y-auto"> {/* Memastikan ukuran modal tetap sama dan tambahkan scroll jika konten penuh */}
             <h3 className="text-lg font-bold mb-4">Tambah Blog</h3>
             <InputText type="text" value={userObj.judul} name="judul" containerStyle="mt-4" labelTitle="Judul" onChange={updateFormValue} />
             

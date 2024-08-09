@@ -27,7 +27,6 @@ function EditBlogModalBody({ blog, closeModal, onBlogUpdated }) {
     const handleSubmit = async () => {
         setLoading(true);
         try {
-            // Update blog data
             const requiredFields = ['judul', 'konten'];
             for (const field of requiredFields) {
                 if (!formData[field]) {
@@ -36,48 +35,47 @@ function EditBlogModalBody({ blog, closeModal, onBlogUpdated }) {
                     return;
                 }
             }
-    
+
             const params = new URLSearchParams();
             Object.keys(formData).forEach(key => {
                 if (formData[key] && key !== 'dokumen') { // Exclude dokumen from URLSearchParams
                     params.append(key, formData[key]);
                 }
             });
-    
+
             const token = Cookies.get('token');
-    
+
             await axios.patch(`http://127.0.0.1:8000/api/admin/blog/${blog.id}`, params, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     Authorization: `Bearer ${token}`
                 }
             });
-    
-            // Upload image if a file is selected
+
             if (formData.dokumen) {
                 const formDataImage = new FormData();
-                formDataImage.append("dokumen", formData.dokumen); // Ensure field name matches API
-    
+                formDataImage.append("dokumen", formData.dokumen);
+
                 const response = await axios.post(`http://127.0.0.1:8000/api/admin/dokumenblog/${blog.id}`, formDataImage, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "multipart/form-data"
                     }
                 });
-    
+
                 if (response.status !== 200 && response.status !== 201) {
                     setErrorMessage(`Failed to update image: ${response.data.message}`);
                     throw new Error(`Failed to update image: ${response.data.message}`);
                 }
             }
-    
+
             Swal.fire({
                 title: 'Success!',
                 text: 'Blog and image updated successfully',
                 icon: 'success',
                 confirmButtonText: 'Ok'
             }).then(() => {
-                onBlogUpdated();  // Call the function to refetch data
+                onBlogUpdated();
                 closeModal();
             });
         } catch (error) {
@@ -93,8 +91,7 @@ function EditBlogModalBody({ blog, closeModal, onBlogUpdated }) {
             setLoading(false);
         }
     };
-    
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setErrorMessage("");
@@ -110,10 +107,10 @@ function EditBlogModalBody({ blog, closeModal, onBlogUpdated }) {
         if (file) {
             setFormData(prevState => ({ ...prevState, dokumen: file }));
         }
-    };    
+    };
 
     return (
-        <div className="p-4 max-w-4xl mx-auto">
+        <div className="p-4 max-w-4xl mx-auto max-h-[80vh] overflow-y-auto bg-white rounded-lg shadow-lg">
             <h3 className="text-lg font-bold mb-4">Edit Blog</h3>
             <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700">Judul</label>
@@ -149,9 +146,9 @@ function EditBlogModalBody({ blog, closeModal, onBlogUpdated }) {
             
             {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
             
-            <div className="modal-action mt-4">
+            <div className="modal-action mt-4 flex justify-end">
                 <button className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-                <button className="btn btn-primary px-6" onClick={handleSubmit} disabled={loading}>
+                <button className="btn btn-primary px-6 ml-2" onClick={handleSubmit} disabled={loading}>
                     {loading ? "Saving..." : "Save"}
                 </button>
             </div>
