@@ -1,33 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit'
+// rightDrawerSlice.js
+import { createSlice } from '@reduxjs/toolkit';
 
-export const rightDrawerSlice = createSlice({
+const initialState = {
+    isOpen: false,
+    header: '',
+    bodyType: null,
+    extraObject: null,
+};
+
+const rightDrawerSlice = createSlice({
     name: 'rightDrawer',
-    initialState: {
-        header: "",  // current  title state management
-        isOpen : false,   // right drawer state management for opening closing
-        bodyType : "",   // right drawer content management
-        extraObject : {},   
-    },
+    initialState,
     reducers: {
-
         openRightDrawer: (state, action) => {
-            const {header, bodyType, extraObject} = action.payload
-            state.isOpen = true
-            state.bodyType = bodyType
-            state.header = header
-            state.extraObject = extraObject
+            state.isOpen = true;
+            state.header = action.payload.header;
+            state.bodyType = action.payload.bodyType;
+            state.extraObject = action.payload.extraObject;
         },
-
-        closeRightDrawer: (state, action) => {
-            state.isOpen = false
-            state.bodyType = ""
-            state.header = ""
-            state.extraObject = {}
+        closeRightDrawer: (state) => {
+            state.isOpen = false;
+            state.header = '';
+            state.bodyType = null;
+            state.extraObject = null;
         },
+    },
+});
 
-    }
-})
-
-export const { openRightDrawer, closeRightDrawer } = rightDrawerSlice.actions
-
-export default rightDrawerSlice.reducer
+export const { openRightDrawer, closeRightDrawer } = rightDrawerSlice.actions;
+export default rightDrawerSlice.reducer;

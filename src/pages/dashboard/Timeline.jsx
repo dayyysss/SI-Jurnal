@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setPageTitle } from '../../features/common/headerSlice'
-import Calendar from '../../features/calendar'
+import Calendar from '../../features/timeline'
 
 function InternalPage(){
     document.title = "SI Jurnal - Timeline";

@@ -107,10 +107,14 @@ const Login = () => {
                             </div>
                             <button
                                 type="submit"
-                                className={`btn mt-2 w-full btn-primary ${isLoading ? "loading" : ""}`}
+                                className="btn mt-2 w-full btn-primary"
                                 disabled={isLoading}
                             >
-                                {isLoading ? "Loading..." : "Login"}
+                                {isLoading ? (
+                                    <span className="loading loading-infinity loading-lg"></span>
+                                ) : (
+                                    "Login"
+                                )}
                             </button>
                         </form>
                     </div>
