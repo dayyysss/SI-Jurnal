@@ -5,7 +5,7 @@ import { setPageTitle } from '../../features/common/headerSlice'
 import DocumentIcon  from '@heroicons/react/24/solid/DocumentIcon'
 
 function InternalPage(){
-
+    document.title = "SI Jurnal - Kosong";
     const dispatch = useDispatch()
 
     useEffect(() => {

@@ -4,6 +4,7 @@ import { setPageTitle } from '../../features/common/headerSlice'
 import FaceFrownIcon  from '@heroicons/react/24/solid/FaceFrownIcon'
 
 function InternalPage(){
+    document.title = "SI Jurnal - 404 Not Found";
 
     const dispatch = useDispatch()
 

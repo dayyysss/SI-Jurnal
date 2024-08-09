@@ -10,8 +10,8 @@ const DataSekolah = lazy(() => import('../pages/dashboard/DataSekolah'));
 const Page404 = lazy(() => import('../pages/dashboard/404'));
 const Blank = lazy(() => import('../pages/dashboard/Blank'));
 const Charts = lazy(() => import('../pages/dashboard/Charts'));
-const Integration = lazy(() => import('../pages/dashboard/Integration'));
-const Calendar = lazy(() => import('../pages/dashboard/Calendar'));
+const Blog = lazy(() => import('../pages/dashboard/Blog'));
+const Timeline = lazy(() => import('../pages/dashboard/Timeline'));
 const Team = lazy(() => import('../pages/dashboard/Team'));
 const Bills = lazy(() => import('../pages/dashboard/Bills'));
 const ProfileSettings = lazy(() => import('../pages/dashboard/ProfileSettings'));
@@ -24,8 +24,8 @@ const adminRoutes = [
     { path: '/dashboard-admin/data-user', component: DataUser, icon: <IdentificationIcon className={iconClasses} />, name: 'Data User' },
     { path: '/dashboard-admin/data-sekolah', component: DataSekolah, icon: <BuildingOffice2Icon className={iconClasses} />, name: 'Data Sekolah' },
     { path: '/dashboard-admin/jurnal', component: Charts, icon: <PencilSquareIcon className={iconClasses} />, name: 'Jurnal' },
-    { path: '/dashboard-admin/blog', component: Integration, icon: <NewspaperIcon className={iconClasses} />, name: 'Blog' },
-    { path: '/dashboard-admin/timeline', component: Calendar, icon: <CalendarDaysIcon className={iconClasses} />, name: 'Timeline' },
+    { path: '/dashboard-admin/blog', component: Blog, icon: <NewspaperIcon className={iconClasses} />, name: 'Blog' },
+    { path: '/dashboard-admin/timeline', component: Timeline, icon: <CalendarDaysIcon className={iconClasses} />, name: 'Timeline' },
     {
         path: '', icon: <Cog6ToothIcon className={`${iconClasses} inline`} />, name: 'Konfigurasi', submenu: [
             { path: '/dashboard-admin/settings-profile', component: ProfileSettings, icon: <UserIcon className={iconClasses} />, name: 'Roles' },

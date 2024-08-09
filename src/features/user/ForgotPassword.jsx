@@ -6,7 +6,6 @@ import InputText from '../../components/Input/InputText'
 import CheckCircleIcon  from '@heroicons/react/24/solid/CheckCircleIcon'
 
 function ForgotPassword(){
-
     const INITIAL_USER_OBJ = {
         emailId : ""
     }

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import Login from '../features/user/Login'
 
 function ExternalPage(){
-
+    document.title = "SI Jurnal - Login";
 
     return(
         <div className="">

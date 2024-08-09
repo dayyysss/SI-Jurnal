@@ -142,7 +142,7 @@ function Users() {
 
     return (
         <>
-            <TitleCard title="Current Users" topMargin="mt-2" TopSideButtons={<TopSideButtons openAddNewUserModal={openAddNewUserModal} searchText={searchText} setSearchText={setSearchText} />}>
+            <TitleCard title="Daftar Pengguna" topMargin="mt-2" TopSideButtons={<TopSideButtons openAddNewUserModal={openAddNewUserModal} searchText={searchText} setSearchText={setSearchText} />}>
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead>

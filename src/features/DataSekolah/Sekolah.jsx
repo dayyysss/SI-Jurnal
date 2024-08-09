@@ -24,7 +24,7 @@ function Sekolah() {
     const [schools, setSchools] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [page, setPage] = useState(1); 
+    const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -42,7 +42,7 @@ function Sekolah() {
 
     const fetchData = async () => {
         try {
-            setIsLoading(true); 
+            setIsLoading(true);
             const response = await axios.get('http://127.0.0.1:8000/api/admin/sekolah', {
                 headers: {
                     Authorization: `Bearer ${getAuthToken()}`,
@@ -64,7 +64,7 @@ function Sekolah() {
             console.error('Error fetching data:', error);
             setError('Error fetching data');
         } finally {
-            setIsLoading(false); 
+            setIsLoading(false);
         }
     };
 
@@ -73,7 +73,7 @@ function Sekolah() {
     }, [page, searchText]);
 
     const applySearch = (searchText) => {
-        fetchData(); 
+        fetchData();
     };
 
     const removeAppliedFilter = () => {
@@ -136,7 +136,7 @@ function Sekolah() {
 
     return (
         <>
-            <TitleCard title="Current Schools" topMargin="mt-2" TopSideButtons={<TopSideButtons openAddNewSchoolModal={openAddNewSchoolModal} searchText={searchText} setSearchText={setSearchText} />}>
+            <TitleCard title="Daftar Sekolah" topMargin="mt-2" TopSideButtons={<TopSideButtons openAddNewSchoolModal={openAddNewSchoolModal} searchText={searchText} setSearchText={setSearchText} />}>
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead>
@@ -163,14 +163,14 @@ function Sekolah() {
                                         <td>{school.users_count}</td>
                                         <td>{school.created_at ? moment(school.created_at).format("DD MMM YY") : 'N/A'}</td>
                                         <td className="flex justify-between">
-                                            <button 
-                                                className="btn btn-square btn-ghost" 
+                                            <button
+                                                className="btn btn-square btn-ghost"
                                                 onClick={() => openEditSchoolModal(school.id)}
                                             >
                                                 <PencilSquareIcon className="w-5" />
                                             </button>
-                                            <button 
-                                                className="btn btn-square btn-ghost" 
+                                            <button
+                                                className="btn btn-square btn-ghost"
                                                 onClick={() => handleDelete(school.id)}
                                             >
                                                 <TrashIcon className="w-5" />
@@ -185,37 +185,37 @@ function Sekolah() {
                             )}
                         </tbody>
                     </table>
-                    
+
                 </div>
             </TitleCard>
-                    {/* Pagination */}
-                    <div className="flex justify-center mt-8 mb-4">
-                        <div className="btn-group">
-                            <button
-                                className={`btn ${page === 1 ? 'btn-disabled' : ''} mr-2`}
-                                onClick={() => setPage(page - 1)}
-                                disabled={page === 1}
-                            >
-                                « Previous
-                            </button>
-                            {Array.from({ length: totalPages }, (_, index) => (
-                                <button
-                                    key={index + 1}
-                                    className={`btn ${page === index + 1 ? 'btn-active' : ''} mr-2`}
-                                    onClick={() => setPage(index + 1)}
-                                >
-                                    {index + 1}
-                                </button>
-                            ))}
-                            <button
-                                className={`btn ${page === totalPages ? 'btn-disabled' : ''}`}
-                                onClick={() => setPage(page + 1)}
-                                disabled={page === totalPages}
-                            >
-                                Next »
-                            </button>
-                        </div>
-                    </div>
+            {/* Pagination */}
+            <div className="flex justify-center mt-8 mb-4">
+                <div className="btn-group">
+                    <button
+                        className={`btn ${page === 1 ? 'btn-disabled' : ''} mr-2`}
+                        onClick={() => setPage(page - 1)}
+                        disabled={page === 1}
+                    >
+                        « Previous
+                    </button>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                            key={index + 1}
+                            className={`btn ${page === index + 1 ? 'btn-active' : ''} mr-2`}
+                            onClick={() => setPage(index + 1)}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                    <button
+                        className={`btn ${page === totalPages ? 'btn-disabled' : ''}`}
+                        onClick={() => setPage(page + 1)}
+                        disabled={page === totalPages}
+                    >
+                        Next »
+                    </button>
+                </div>
+            </div>
 
             {/* Modal Add School */}
             {isAddModalOpen && (

@@ -4,6 +4,7 @@ import { setPageTitle } from '../../features/common/headerSlice'
 import Dashboard from '../../features/Dashboard/index'
 
 function InternalPage(){
+    document.title = "SI Jurnal";
     const dispatch = useDispatch()
 
     useEffect(() => {

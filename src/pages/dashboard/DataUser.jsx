@@ -4,6 +4,7 @@ import { setPageTitle } from '../../features/common/headerSlice'
 import DataUser from '../../features/DataUser/Users'
 
 function InternalPage(){
+    document.title = "SI Jurnal - Data User";
     const dispatch = useDispatch()
 
     useEffect(() => {

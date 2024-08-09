@@ -7,7 +7,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const Login = () => {
-    document.title = "SI Jurnal - Login";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);

@@ -4,6 +4,7 @@ import { setPageTitle } from '../../features/common/headerSlice'
 import Calendar from '../../features/calendar'
 
 function InternalPage(){
+    document.title = "SI Jurnal - Timeline";
     const dispatch = useDispatch()
 
     useEffect(() => {

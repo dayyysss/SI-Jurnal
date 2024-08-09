@@ -4,7 +4,7 @@ import { setPageTitle } from '../../features/common/headerSlice'
 import Integration from '../../features/blog'
 
 function InternalPage(){
-
+    document.title = "SI Jurnal - Blog";
     const dispatch = useDispatch()
 
     useEffect(() => {
