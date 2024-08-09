@@ -7,8 +7,8 @@ const DataSekolah = lazy(() => import('../pages/dashboard/DataSekolah'));
 const Page404 = lazy(() => import('../pages/dashboard/404'));
 const Blank = lazy(() => import('../pages/dashboard/Blank'));
 const Charts = lazy(() => import('../pages/dashboard/Charts'));
-const Integration = lazy(() => import('../pages/dashboard/Integration'));
-const Calendar = lazy(() => import('../pages/dashboard/Calendar'));
+const Blog = lazy(() => import('../pages/dashboard/Blog'));
+const Timeline = lazy(() => import('../pages/dashboard/Timeline'));
 const Team = lazy(() => import('../pages/dashboard/Team'));
 const Bills = lazy(() => import('../pages/dashboard/Bills'));
 const ProfileSettings = lazy(() => import('../pages/dashboard/ProfileSettings'));
@@ -32,11 +32,11 @@ const routes = [
   },
   {
     path: '/blog',
-    component: Integration,
+    component: Blog,
   },
   {
-    path: '/calendar',
-    component: Calendar,
+    path: '/timeline',
+    component: Timeline,
   },
   {
     path: '/settings-profile',

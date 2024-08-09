@@ -25,7 +25,7 @@ const adminRoutes = [
     { path: '/dashboard-admin/data-sekolah', component: DataSekolah, icon: <BuildingOffice2Icon className={iconClasses} />, name: 'Data Sekolah' },
     { path: '/dashboard-admin/jurnal', component: Charts, icon: <PencilSquareIcon className={iconClasses} />, name: 'Jurnal' },
     { path: '/dashboard-admin/blog', component: Integration, icon: <NewspaperIcon className={iconClasses} />, name: 'Blog' },
-    { path: '/dashboard-admin/calendar', component: Calendar, icon: <CalendarDaysIcon className={iconClasses} />, name: 'Kalender' },
+    { path: '/dashboard-admin/timeline', component: Calendar, icon: <CalendarDaysIcon className={iconClasses} />, name: 'Timeline' },
     {
         path: '', icon: <Cog6ToothIcon className={`${iconClasses} inline`} />, name: 'Konfigurasi', submenu: [
             { path: '/dashboard-admin/settings-profile', component: ProfileSettings, icon: <UserIcon className={iconClasses} />, name: 'Roles' },

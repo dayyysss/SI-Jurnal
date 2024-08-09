@@ -1,4 +1,3 @@
-// AddUserModalBody.jsx
 import { useState, useEffect } from "react";
 import InputText from '../../../components/Input/InputText';
 import ErrorText from '../../../components/Typography/ErrorText';
@@ -137,7 +136,7 @@ function AddUserModalBody({ closeModal, onUserAdded }) {
             <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700">Asal Sekolah</label>
                 <select
-                    className="mt-2 border border-gray-300 rounded-md p-3 w-full"
+                    className="select select-bordered w-full mt-2"
                     value={userObj.school_id}
                     onChange={(e) => updateFormValue({ target: { name: 'school_id', value: e.target.value } })}
                 >
@@ -157,7 +156,7 @@ function AddUserModalBody({ closeModal, onUserAdded }) {
             <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700">Gender</label>
                 <select
-                    className="mt-2 border border-gray-300 rounded-md p-3 w-full"
+                    className="select select-bordered w-full mt-2"
                     value={userObj.gender}
                     onChange={(e) => updateFormValue({ target: { name: 'gender', value: e.target.value } })}
                 >

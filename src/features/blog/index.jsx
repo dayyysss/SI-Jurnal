@@ -75,8 +75,8 @@ function Blog() {
                         key={blog.id}
                         title={blog.judul}
                         topMargin={"mt-2"}
-                        image={blog.dokumen} // Assuming dokumen is an image URL
-                        profileImage={`http://127.0.0.1:8000/api/user/profile/${blog.user_id}`} // Replace with actual profile image URL
+                        image={blog.dokumen}
+                        profileImage={blog.users ? blog.users.image : ""}
                         date={`Dipublikasikan • ${formatDate(blog.created_at)}`}
                         onView={() => handleView(blog.id)}
                         onEdit={() => handleEdit(blog.id)}

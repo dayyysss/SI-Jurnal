@@ -212,6 +212,9 @@ function Users() {
                         </tbody>
                     </table>
 
+
+                </div>
+            </TitleCard>
                     {/* Pagination */}
                     <div className="flex justify-center mt-8 mb-4">
                         <div className="btn-group">
@@ -240,9 +243,6 @@ function Users() {
                             </button>
                         </div>
                     </div>
-
-                </div>
-            </TitleCard>
 
             {/* Modal Add User */}
             {isAddModalOpen && (

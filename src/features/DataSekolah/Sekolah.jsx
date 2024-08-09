@@ -14,7 +14,7 @@ const TopSideButtons = ({ openAddNewSchoolModal, searchText, setSearchText }) =>
         <div className="inline-block float-right">
             <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
             <button className="btn px-6 btn-sm normal-case btn-primary" onClick={openAddNewSchoolModal}>
-                Tambah Data Sekolah
+                Tambah Sekolah
             </button>
         </div>
     );
@@ -186,6 +186,8 @@ function Sekolah() {
                         </tbody>
                     </table>
                     
+                </div>
+            </TitleCard>
                     {/* Pagination */}
                     <div className="flex justify-center mt-8 mb-4">
                         <div className="btn-group">
@@ -214,8 +216,6 @@ function Sekolah() {
                             </button>
                         </div>
                     </div>
-                </div>
-            </TitleCard>
 
             {/* Modal Add School */}
             {isAddModalOpen && (
