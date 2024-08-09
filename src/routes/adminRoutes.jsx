@@ -9,7 +9,7 @@ const DataUser = lazy(() => import('../pages/dashboard/DataUser'));
 const DataSekolah = lazy(() => import('../pages/dashboard/DataSekolah'));
 const Page404 = lazy(() => import('../pages/dashboard/404'));
 const Blank = lazy(() => import('../pages/dashboard/Blank'));
-const Charts = lazy(() => import('../pages/dashboard/Charts'));
+const Charts = lazy(() => import('../pages/dashboard/Jurnal'));
 const Blog = lazy(() => import('../pages/dashboard/Blog'));
 const Timeline = lazy(() => import('../pages/dashboard/Timeline'));
 const Team = lazy(() => import('../pages/dashboard/Team'));

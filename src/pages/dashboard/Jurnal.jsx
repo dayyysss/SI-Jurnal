@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import Charts from '../../features/charts'
+import Jurnal from '../../features/jurnal/Jurnal'
 import { setPageTitle } from '../../features/common/headerSlice'
 
 function InternalPage(){
@@ -8,12 +8,12 @@ function InternalPage(){
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setPageTitle({ title : "Analytics"}))
+        dispatch(setPageTitle({ title : "Jurnal"}))
       }, [])
 
 
     return(
-        <Charts />
+        <Jurnal />
     )
 }
 
