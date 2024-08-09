@@ -19,46 +19,73 @@ function EditBlogModalBody({ blog, closeModal, onBlogUpdated }) {
             setFormData({
                 judul: blog.judul,
                 konten: blog.konten,
-                dokumen: null // Reset dokumen karena kita hanya akan mengupload yang baru jika diubah
+                dokumen: null
             });
         }
     }, [blog]);
 
     const handleSubmit = async () => {
+        setLoading(true);
         try {
-            setLoading(true);
-    
-            const data = new FormData();
-            data.append('judul', formData.judul);
-            data.append('konten', formData.konten);
-            if (formData.dokumen) {
-                data.append('dokumen', formData.dokumen);
+            // Update blog data
+            const requiredFields = ['judul', 'konten'];
+            for (const field of requiredFields) {
+                if (!formData[field]) {
+                    setErrorMessage(`${field} is required!`);
+                    setLoading(false);
+                    return;
+                }
             }
-
-            const token = Cookies.get('token');
     
-            await axios.put(`http://127.0.0.1:8000/api/admin/blog/${blog.id}`, data, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
+            const params = new URLSearchParams();
+            Object.keys(formData).forEach(key => {
+                if (formData[key] && key !== 'dokumen') { // Exclude dokumen from URLSearchParams
+                    params.append(key, formData[key]);
                 }
             });
     
+            const token = Cookies.get('token');
+    
+            await axios.patch(`http://127.0.0.1:8000/api/admin/blog/${blog.id}`, params, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Authorization: `Bearer ${token}`
+                }
+            });
+    
+            // Upload image if a file is selected
+            if (formData.dokumen) {
+                const formDataImage = new FormData();
+                formDataImage.append("dokumen", formData.dokumen); // Ensure field name matches API
+    
+                const response = await axios.post(`http://127.0.0.1:8000/api/admin/dokumenblog/${blog.id}`, formDataImage, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+    
+                if (response.status !== 200 && response.status !== 201) {
+                    setErrorMessage(`Failed to update image: ${response.data.message}`);
+                    throw new Error(`Failed to update image: ${response.data.message}`);
+                }
+            }
+    
             Swal.fire({
-                title: 'Sukses!',
-                text: 'Blog Berhasil Diedit!',
+                title: 'Success!',
+                text: 'Blog and image updated successfully',
                 icon: 'success',
                 confirmButtonText: 'Ok'
             }).then(() => {
-                onBlogUpdated(); 
+                onBlogUpdated();  // Call the function to refetch data
                 closeModal();
             });
         } catch (error) {
-            console.error('Error updating blog:', error);
-            setErrorMessage('Failed to update blog');
+            console.error('Error saving changes:', error.response ? error.response.data : error.message);
+            setErrorMessage('Failed to save changes');
             Swal.fire({
                 title: 'Error!',
-                text: 'Failed to update blog',
+                text: 'Failed to save changes',
                 icon: 'error',
                 confirmButtonText: 'Ok'
             });
@@ -66,7 +93,8 @@ function EditBlogModalBody({ blog, closeModal, onBlogUpdated }) {
             setLoading(false);
         }
     };
-
+    
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setErrorMessage("");
@@ -82,7 +110,7 @@ function EditBlogModalBody({ blog, closeModal, onBlogUpdated }) {
         if (file) {
             setFormData(prevState => ({ ...prevState, dokumen: file }));
         }
-    };
+    };    
 
     return (
         <div className="p-4 max-w-4xl mx-auto">
